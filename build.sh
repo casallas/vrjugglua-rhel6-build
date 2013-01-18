@@ -10,7 +10,9 @@
 BASEDIR=$(cd $(dirname $0) && pwd)
 SRCDIR=$BASEDIR/submodules
 BUILDDIR=$BASEDIR/build
+CMAKEPROGRAM=$BUILDDIR/cmake/bin/cmake
 
+MULTITHREADING=8
 
 #Create build directory if it doesn't exist
 if [ ! -d "build" ]; then
@@ -22,11 +24,12 @@ fi
 
 #Build QT
 #https://qt-project.org/wiki/Building_Qt_5_from_Git
+#http://stackoverflow.com/questions/5587141/recommended-flags-for-a-minimalistic-qt-build
 buildQT() {(
   echo "Starting QT build..."
   cd $SRCDIR/qt
   ./configure -opensource -confirm-license -fast -no-phonon -no-phonon-backend -no-webkit -no-multimedia -nomake examples -nomake tests -prefix $BUILDDIR/qt
-  gmake -j 8
+  gmake -j $MULTITHREADING
   gmake install
  )
 }
@@ -37,9 +40,8 @@ buildCMake() {(
   mkdir -p $BUILDDIR/cmake
   cd $SRCDIR/cmake
   ./bootstrap --prefix=$BUILDDIR/cmake
-  make -j 8
+  make -j $MULTITHREADING
   make install
-  CMAKEPROGRAM=$BUILDDIR/cmake/bin/cmake
  )
 }
 
@@ -48,9 +50,21 @@ buildCMake() {(
 buildLuaBind() {(
   echo "Starting LuaBind build..."
   mkdir -p $BUILDDIR/luabind && cd $BUILDDIR/luabind
+  rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/luabind \
   -DCMAKE_BUILD_TYPE=Release
-  make -j 8
+  make -j $MULTITHREADING
+ )
+}
+
+#Build OSG
+buildOSG() {(
+  echo "Starting OSG build..."
+  mkdir -p $BUILDDIR/osg && cd $BUILDDIR/osg
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/osg \
+  -DCMAKE_BUILD_TYPE=Release
+  make -j $MULTITHREADING
  )
 }
 
@@ -60,5 +74,6 @@ buildLuaBind() {(
 #Start running through the build process
 
 #buildQT
-buildCMake
-buildLuaBind
+#buildCMake
+#buildLuaBind
+buildOSG
