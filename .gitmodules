@@ -19,3 +19,6 @@
 [submodule "submodules/cmake"]
 	path = submodules/cmake
 	url = http://cmake.org/cmake.git
+[submodule "submodules/cppdom"]
+	path = submodules/cppdom
+	url = https://github.com/rpavlik/cppdom.git

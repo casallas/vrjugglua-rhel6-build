@@ -68,6 +68,30 @@ buildOSG() {(
  )
 }
 
+#Build CPPDom
+buildCPPDom() {(
+  echo "Starting CPPDom build..."
+  mkdir -p $BUILDDIR/cppdom && cd $BUILDDIR/cppdom
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/cppdom \
+  -DCMAKE_BUILD_TYPE=Release
+  make -j $MULTITHREADING
+ )
+}
+
+#Build VRJuggler
+buildVRJuggler() {(
+  echo "Starting VRJuggler build..."
+  mkdir -p $BUILDDIR/vrjuggler && cd $BUILDDIR/vrjuggler
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/vrjuggler \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH=$BUILDDIR/cppdom
+  -DBUILD_JAVA=OFF
+  make -j $MULTITHREADING
+ )
+}
+
 
 
 
@@ -76,4 +100,6 @@ buildOSG() {(
 #buildQT
 #buildCMake
 #buildLuaBind
-buildOSG
+#buildOSG
+buildCPPDom
+buildVRJuggler
