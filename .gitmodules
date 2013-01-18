@@ -16,3 +16,6 @@
 [submodule "submodules/vrjuggler"]
 	path = submodules/vrjuggler
 	url = https://github.com/rpavlik/vrjuggler.git
+[submodule "submodules/cmake"]
+	path = submodules/cmake
+	url = http://cmake.org/cmake.git
