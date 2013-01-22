@@ -15,10 +15,7 @@ CMAKEPROGRAM=$BUILDDIR/cmake/bin/cmake
 MULTITHREADING=8
 
 #Create build directory if it doesn't exist
-if [ ! -d "build" ]; then
-    echo "Creating build directory."
-    mkdir "build"
-fi
+mkdir -p $BUILDDIR && cd $BUILDDIR
 
 
 
@@ -28,7 +25,7 @@ fi
 buildQT() {(
   echo "Starting QT build..."
   cd $SRCDIR/qt
-  ./configure -opensource -confirm-license -fast -no-phonon -no-phonon-backend -no-webkit -no-multimedia -nomake examples -nomake tests -prefix $BUILDDIR/qt
+  ./configure -opensource -release -confirm-license -fast -no-script -no-scripttools -no-qt3support -no-phonon -no-phonon-backend -no-webkit -no-audio-backend -no-multimedia -nomake demos -nomake examples -nomake tests -prefix $BUILDDIR/qt
   gmake -j $MULTITHREADING
   gmake install
  )
@@ -47,15 +44,16 @@ buildCMake() {(
 
 
 #Build LuaBind
-buildLuaBind() {(
-  echo "Starting LuaBind build..."
-  mkdir -p $BUILDDIR/luabind && cd $BUILDDIR/luabind
-  rm -f CMakeCache.txt
-  $CMAKEPROGRAM $SRCDIR/luabind \
-  -DCMAKE_BUILD_TYPE=Release
-  make -j $MULTITHREADING
- )
-}
+#This is included already in VRJugglua
+#buildLuaBind() {(
+#  echo "Starting LuaBind build..."
+#  mkdir -p $BUILDDIR/luabind && cd $BUILDDIR/luabind
+#  rm -f CMakeCache.txt
+#  $CMAKEPROGRAM $SRCDIR/luabind \
+#  -DCMAKE_BUILD_TYPE=Release
+#  make -j $MULTITHREADING
+# )
+#}
 
 #Build OSG
 buildOSG() {(
@@ -79,6 +77,17 @@ buildCPPDom() {(
  )
 }
 
+#Build VRPN
+buildVRPN() {(
+  echo "Starting VRPN build..."
+  mkdir -p $BUILDDIR/vrpn && cd $BUILDDIR/vrpn
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/vrpn \
+  -DCMAKE_BUILD_TYPE=Release
+  make -j $MULTITHREADING
+ )
+}
+
 #Build VRJuggler
 buildVRJuggler() {(
   echo "Starting VRJuggler build..."
@@ -86,12 +95,24 @@ buildVRJuggler() {(
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/vrjuggler \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH=$BUILDDIR/cppdom
+  -DCMAKE_PREFIX_PATH=$BUILDDIR/cppdom/cppdom/;$BUILDDIR/vrpn/ \
+  -DCPPDOM_INCLUDE_DIR=$SRCDIR/cppdom/ \
   -DBUILD_JAVA=OFF
   make -j $MULTITHREADING
  )
 }
 
+#Build VRJugglua
+buildVRJugglua() {(
+  echo "Starting VRJugglua build..."
+  mkdir -p $BUILDDIR/vrjugglua && cd $BUILDDIR/vrjugglua
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/vrjugglua \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH=$BUILDDIR/vrjugger \
+  make -j $MULTITHREADING
+ )
+}
 
 
 
@@ -99,7 +120,12 @@ buildVRJuggler() {(
 
 #buildQT
 #buildCMake
+
+#This is already part of VRJugglua
 #buildLuaBind
+
 #buildOSG
-buildCPPDom
+#buildCPPDom
+#buildVRPN
 buildVRJuggler
+#buildVRJugglua
