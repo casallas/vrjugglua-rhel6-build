@@ -10,6 +10,7 @@
 BASEDIR=$(cd $(dirname $0) && pwd)
 SRCDIR=$BASEDIR/submodules
 BUILDDIR=$BASEDIR/build
+INSTALLDIR=$BASEDIR/install
 CMAKEPROGRAM=$BUILDDIR/cmake/bin/cmake
 
 MULTITHREADING=8
@@ -17,6 +18,8 @@ MULTITHREADING=8
 #Create build directory if it doesn't exist
 mkdir -p $BUILDDIR && cd $BUILDDIR
 
+#Create install directory if it doesn't exist
+mkdir -p $INSTALLDIR
 
 
 #Build QT
@@ -61,8 +64,10 @@ buildOSG() {(
   mkdir -p $BUILDDIR/osg && cd $BUILDDIR/osg
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/osg \
-  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
   make -j $MULTITHREADING
+  make install
  )
 }
 
@@ -72,8 +77,10 @@ buildCPPDom() {(
   mkdir -p $BUILDDIR/cppdom && cd $BUILDDIR/cppdom
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/cppdom \
-  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
   make -j $MULTITHREADING
+  make install
  )
 }
 
@@ -83,8 +90,10 @@ buildVRPN() {(
   mkdir -p $BUILDDIR/vrpn && cd $BUILDDIR/vrpn
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/vrpn \
-  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
   make -j $MULTITHREADING
+  make install
  )
 }
 
@@ -95,10 +104,13 @@ buildVRJuggler() {(
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/vrjuggler \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_PREFIX_PATH=$BUILDDIR/cppdom/cppdom/;$BUILDDIR/vrpn/ \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
+  -DCMAKE_PREFIX_PATH=$INSTALLDIR \
   -DCPPDOM_INCLUDE_DIR=$SRCDIR/cppdom/ \
-  -DBUILD_JAVA=OFF
+  -DBUILD_JAVA=OFF /
+  -DBUILD_TESTING=OFF
   make -j $MULTITHREADING
+  make install
  )
 }
 
@@ -109,8 +121,10 @@ buildVRJugglua() {(
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/vrjugglua \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
   -DCMAKE_PREFIX_PATH=$BUILDDIR/vrjugger \
   make -j $MULTITHREADING
+  make install
  )
 }
 
