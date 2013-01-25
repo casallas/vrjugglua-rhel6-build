@@ -23,16 +23,17 @@ mkdir -p $INSTALLDIR
 
 
 #Build QT
+#Hmm, I guess our version actually is relatively up-to-date, this is not needed
 #https://qt-project.org/wiki/Building_Qt_5_from_Git
 #http://stackoverflow.com/questions/5587141/recommended-flags-for-a-minimalistic-qt-build
-buildQT() {(
-  echo "Starting QT build..."
-  cd $SRCDIR/qt
-  ./configure -opensource -release -confirm-license -fast -no-script -no-scripttools -no-qt3support -no-phonon -no-phonon-backend -no-webkit -no-audio-backend -no-multimedia -nomake demos -nomake examples -nomake tests -prefix $BUILDDIR/qt
-  gmake -j $MULTITHREADING
-  gmake install
- )
-}
+#buildQT() {(
+#  echo "Starting QT build..."
+#  cd $SRCDIR/qt
+#  ./configure -opensource -release -confirm-license -fast -no-script -no-scripttools -no-qt3support -no-phonon -no-phonon-backend -no-webkit -no-audio-backend -no-multimedia -nomake demos -nomake examples -nomake tests -prefix $BUILDDIR/qt
+#  gmake -j $MULTITHREADING
+#  gmake install
+# )
+#}
 
 #Build CMake
 buildCMake() {(
@@ -65,6 +66,7 @@ buildOSG() {(
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/osg \
   -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_OSG_WRAPPERS=ON \
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
   make -j $MULTITHREADING
   make install
@@ -105,10 +107,9 @@ buildVRJuggler() {(
   $CMAKEPROGRAM $SRCDIR/vrjuggler \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
-  -DCMAKE_PREFIX_PATH=$INSTALLDIR \
-  -DCPPDOM_INCLUDE_DIR=$SRCDIR/cppdom/ \
-  -DBUILD_JAVA=OFF /
-  -DBUILD_TESTING=OFF
+  -DBUILD_JAVA=OFF \
+  -DBUILD_TESTING=OFF \
+  -DCMAKE_PREFIX_PATH=\"$INSTALLDIR;$INSTALLDIR/include/cppdom-1.2.0\"
   make -j $MULTITHREADING
   make install
  )
@@ -117,12 +118,13 @@ buildVRJuggler() {(
 #Build VRJugglua
 buildVRJugglua() {(
   echo "Starting VRJugglua build..."
-  mkdir -p $BUILDDIR/vrjugglua && cd $BUILDDIR/vrjugglua
+  mkdir -p $BUILDDIR/vr-jugglua && cd $BUILDDIR/vr-jugglua
   rm -f CMakeCache.txt
-  $CMAKEPROGRAM $SRCDIR/vrjugglua \
+  $CMAKEPROGRAM $SRCDIR/vr-jugglua \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
-  -DCMAKE_PREFIX_PATH=$BUILDDIR/vrjugger \
+  -DCMAKE_LIBRARY_PATH=$INSTALLDIR \
+  -DCMAKE_PREFIX_PATH=\"$INSTALLDIR;$SRCDIR/osg/include\"
   make -j $MULTITHREADING
   make install
  )
@@ -132,14 +134,16 @@ buildVRJugglua() {(
 
 #Start running through the build process
 
+#QT is apparently fairly up-to-date, this is not needed
 #buildQT
-#buildCMake
 
-#This is already part of VRJugglua
+buildCMake
+
+#LuaBind is already part of VRJugglua
 #buildLuaBind
 
-#buildOSG
-#buildCPPDom
-#buildVRPN
+buildOSG
+buildCPPDom
+buildVRPN
 buildVRJuggler
-#buildVRJugglua
+buildVRJugglua
