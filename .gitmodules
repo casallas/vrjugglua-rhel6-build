@@ -25,6 +25,3 @@
 [submodule "submodules/wiiuse"]
 	path = submodules/wiiuse
 	url = https://github.com/rpavlik/wiiuse.git
-[submodule "submodules/vrpn-wiimote-gui"]
-	path = submodules/vrpn-wiimote-gui
-	url = https://github.com/rpavlik/vrpn-wiimote-gui.git
