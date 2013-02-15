@@ -86,6 +86,19 @@ buildCPPDom() {(
  )
 }
 
+#Build wiiuse
+buildWiiUse() {(
+  echo "Starting WiiUse build..."
+  mkdir -p $BUILDDIR/wiiuse && cd $BUILDDIR/wiiuse
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/wiiuse \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
+  make -j $MULTITHREADING
+  make install
+ )
+}
+
 #Build VRPN
 buildVRPN() {(
   echo "Starting VRPN build..."
@@ -93,6 +106,8 @@ buildVRPN() {(
   rm -f CMakeCache.txt
   $CMAKEPROGRAM $SRCDIR/vrpn \
   -DCMAKE_BUILD_TYPE=Release \
+  -DVRPN_USE_WIIUSE=ON \
+  -DVRPN_GPL_SERVER=ON \
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
   make -j $MULTITHREADING
   make install
@@ -145,5 +160,6 @@ buildCMake
 buildOSG
 buildCPPDom
 buildVRPN
+#buildWiiUse
 buildVRJuggler
 buildVRJugglua
