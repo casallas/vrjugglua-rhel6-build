@@ -22,6 +22,3 @@
 [submodule "submodules/cppdom"]
 	path = submodules/cppdom
 	url = https://github.com/rpavlik/cppdom.git
-[submodule "submodules/wiiuse"]
-	path = submodules/wiiuse
-	url = https://github.com/rpavlik/wiiuse.git
