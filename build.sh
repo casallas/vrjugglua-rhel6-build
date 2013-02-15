@@ -99,6 +99,21 @@ buildWiiUse() {(
  )
 }
 
+#Build vrpn-wiimote-gui
+#Make sure to cd to submodules/vrpn-wiimote-gui and run:
+#git submodule update --init -recursive
+buildVRPNWiimoteGUI() {(
+  echo "Starting VRPNWiimoteGUI build..."
+  mkdir -p $BUILDDIR/vrpn-wiimote-gui && cd $BUILDDIR/vrpn-wiimote-gui
+  rm -f CMakeCache.txt
+  $CMAKEPROGRAM $SRCDIR/vrpn-wiimote-gui \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=$INSTALLDIR
+  make -j $MULTITHREADING
+  make install
+ )
+}
+
 #Build VRPN
 buildVRPN() {(
   echo "Starting VRPN build..."
@@ -152,14 +167,17 @@ buildVRJugglua() {(
 #QT is apparently fairly up-to-date, this is not needed
 #buildQT
 
-buildCMake
+#buildCMake
 
 #LuaBind is already part of VRJugglua
 #buildLuaBind
 
-buildOSG
-buildCPPDom
-buildVRPN
+#buildOSG
+#buildCPPDom
 #buildWiiUse
-buildVRJuggler
-buildVRJugglua
+#buildVRPNWiimoteGUI
+#buildVRPN
+#buildVRJuggler
+#buildVRJugglua
+
+
