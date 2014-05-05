@@ -47,17 +47,6 @@ buildCMake() {(
 }
 
 
-#Build LuaBind
-#This is included already in VRJugglua
-#buildLuaBind() {(
-#  echo "Starting LuaBind build..."
-#  mkdir -p $BUILDDIR/luabind && cd $BUILDDIR/luabind
-#  rm -f CMakeCache.txt
-#  $CMAKEPROGRAM $SRCDIR/luabind \
-#  -DCMAKE_BUILD_TYPE=Release
-#  make -j $MULTITHREADING
-# )
-#}
 
 #Build OSG
 buildOSG() {(
@@ -140,8 +129,6 @@ buildVRJugglua() {(
 
 buildCMake
 
-#LuaBind is already part of VRJugglua
-#buildLuaBind
 
 buildOSG
 buildCPPDom
