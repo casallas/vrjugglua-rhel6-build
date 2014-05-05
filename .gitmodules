@@ -4,9 +4,6 @@
 [submodule "submodules/vrpn"]
 	path = submodules/vrpn
 	url = https://github.com/rpavlik/vrpn.git
-[submodule "submodules/luabind"]
-	path = submodules/luabind
-	url = https://github.com/rpavlik/luabind.git
 [submodule "submodules/osg"]
 	path = submodules/osg
 	url = https://github.com/rpavlik/osg.git
