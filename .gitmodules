@@ -12,7 +12,7 @@
 	url = https://github.com/rpavlik/osg.git
 [submodule "submodules/vr-jugglua"]
 	path = submodules/vr-jugglua
-	url = git@github.com:vancegroup/vr-jugglua.git
+	url = https://github.com/vancegroup/vr-jugglua.git
 [submodule "submodules/vrjuggler"]
 	path = submodules/vrjuggler
 	url = https://github.com/rpavlik/vrjuggler.git
