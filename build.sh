@@ -40,7 +40,7 @@ buildCMake() {(
   echo "Starting CMake build..."
   mkdir -p $BUILDDIR/cmake
   cd $SRCDIR/cmake
-  ./bootstrap --prefix=$BUILDDIR/cmake
+  ./bootstrap --prefix=$BUILDDIR/cmake --qt-gui
   make -j $MULTITHREADING
   make install
  )
