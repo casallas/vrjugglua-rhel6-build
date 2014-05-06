@@ -16,3 +16,6 @@
 [submodule "submodules/cppdom"]
 	path = submodules/cppdom
 	url = https://github.com/rpavlik/cppdom.git
+[submodule "submodules/gmtl"]
+	path = submodules/gmtl
+	url = https://github.com/rpavlik/gmtl.git
