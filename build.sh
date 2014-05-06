@@ -89,6 +89,9 @@ buildVRPN() {(
 }
 
 #Build VRJuggler
+#DBoost_NO_BOOST_CMAKE=ON
+#This gets around a bug in RHEL6: https://bugzilla.redhat.com/show_bug.cgi?id=849791
+#where it uses an incorrect Boost.cmake file.
 buildVRJuggler() {(
   echo "Starting VRJuggler build..."
   mkdir -p $BUILDDIR/vrjuggler && cd $BUILDDIR/vrjuggler
@@ -98,7 +101,8 @@ buildVRJuggler() {(
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
   -DBUILD_JAVA=OFF \
   -DBUILD_TESTING=OFF \
-  -DGMTL_INCLUDE_DIR=\"$SRCDIR/gmtl\"
+  -DGMTL_INCLUDE_DIR=$SRCDIR/gmtl \
+  -DBoost_NO_BOOST_CMAKE=ON \
   -DCMAKE_PREFIX_PATH=\"$INSTALLDIR;$INSTALLDIR/include/cppdom-1.2.0\"
   make -j $MULTITHREADING
   make install
@@ -115,6 +119,8 @@ buildVRJugglua() {(
   -DCMAKE_INSTALL_PREFIX=$INSTALLDIR \
   -DCMAKE_LIBRARY_PATH=$INSTALLDIR \
   -DBUILD_WITHOUT_TERMINAL=OFF \
+  -DBoost_NO_BOOST_CMAKE=ON \
+  -DGMTL_INCLUDE_DIR=$SRCDIR/gmtl \
   -DCMAKE_PREFIX_PATH=\"$INSTALLDIR;$SRCDIR/osg/include\"
   make -j $MULTITHREADING
   make install
