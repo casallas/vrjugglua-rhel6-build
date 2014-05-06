@@ -3,7 +3,7 @@
 	url = https://github.com/rpavlik/vrpn.git
 [submodule "submodules/osg"]
 	path = submodules/osg
-	url = https://github.com/rpavlik/osg.git
+	url = https://github.com/carlsonp/osg.git
 [submodule "submodules/vr-jugglua"]
 	path = submodules/vr-jugglua
 	url = https://github.com/vancegroup/vr-jugglua.git
