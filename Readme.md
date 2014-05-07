@@ -52,7 +52,7 @@ I usually open a separate terminal tab and then SSH into a random machine and th
 to make sure the application is not running.  You can look in the .jconf file for the machine
 names.  They're named according to the position on the screen, so for example:
 
-   ssh top6
+    ssh top6
    
 This logs you into `zion-46.vrac.iastate.edu`.
 
