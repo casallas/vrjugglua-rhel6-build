@@ -58,3 +58,7 @@ This logs you into `zion-46.vrac.iastate.edu`.
 
 If you don't do this and you leave an application running accross the cluster, it would
 slow down other apps so make sure it's killed!
+
+JCONF files as provided by VRAC are in the following location:
+
+`/home/vr/vjconfig/C6/`
